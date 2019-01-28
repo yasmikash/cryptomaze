@@ -1,0 +1,65 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div class="col-md-8 content">
+   <div class="row main-content">
+      <div class="col">
+         <p style="font-size:15px; text-align:left;">{{ faucet_name }} referral system captures every person you refer to the
+            faucet, and gives you commission everytime they make a claim, based on those referrals you have, as in the
+            below
+            table:
+            <p>
+      </div>
+      <div class="col-md-6">
+         <table class="table table-bordered">
+            <thead>
+               <tr>
+                  <th>Referral Count</th>
+                  <th>Commission (%)</th>
+               </tr>
+            </thead>
+            <tbody>
+               {% for item in discount_list %}
+               <tr>
+                  <td align="left">{{ item[0][0] }} - {{ item[0][1] }}</td>
+                  <td align="left">{{ item[1] }}</td>
+               </tr>
+               {% endfor %}
+               <tr>
+                  <td align="left">>= 10000</td>
+                  <td align="left">{{ max_commission }}</td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+      <div class="col-md-6">
+         <div id="ad-6">
+            <img src="../static/img/ad-300x250.jpg" alt="Advertisment banner (300x250)" />
+        </div>
+      </div>
+   </div>
+   <h4><span class="fas fa-clipboard-list" style="color: rgb(128, 128, 128)"></span> Referral Status</h4>
+   <div class="row main-content">
+      <div class="col ref-table">
+         <table class="table table-sm">
+            <thead>
+               <tr>
+                  <th scope="col">TOTAL REFERRALS</th>
+                  <th scope="col">REFERRAL COMMISSION</th>
+                  <th scope="col">ALL TIME REFERRAL EARNING</th>
+               </tr>
+            </thead>
+            <tbody>
+               <tr>
+                  <td align='left'>{{ ref_count }}</td>
+                  <td align='left'>{% if ref_commission %}{{ ref_commission }}%{% else %} - {% endif %}</td>
+                  <td align='left'>{{ "%.8f"|format(current_user.ref_balance) }} BTC</td>
+               </tr>
+               <tr>
+                  <td colspan="3">REF LINK: <code>{{ faucet_url }}index?ref={{ current_user.id }}</code></td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+   </div>
+</div>
+{% endblock content %}

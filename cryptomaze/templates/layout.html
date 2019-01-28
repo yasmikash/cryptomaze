@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      {% if title %}
+      <title>{{ title }} - {{ faucet_name }}</title>
+      {% else %}
+      <title>{{ faucet_name }}</title>
+      {% endif %}
+      <!-- Bootstrap -->
+      <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+      <link href="{{ url_for('static', filename='bootstrap.min.css') }}" rel="stylesheet">
+      <script src="{{ url_for('static', filename='jquery-2.2.4.min.js') }}"></script>
+      <script src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>
+      <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+      <link href="{{ url_for('static', filename='toastr.css') }}" rel="stylesheet">
+      <link href="{{ url_for('static', filename='sweetalert2.min.css') }}" rel="stylesheet">
+      <link href="{{ url_for('static', filename='select2.min.css') }}" rel="stylesheet">
+      <script src="{{ url_for('static', filename='select2.min.js') }}"></script>
+      <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+      <script src='https://www.google.com/recaptcha/api.js'></script>
+      <style>
+         .re-centered {
+         text-align: center;
+         }
+         .g-recaptcha {
+         display: inline-block;
+         }
+      </style>
+      <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+      <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+      <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+      <![endif]-->
+   </head>
+   <body>
+         <noscript>
+            <style>html{display:none;}</style>
+            <meta http-equiv="refresh" content="0.0;url=nojs">
+         </noscript>
+      <header>
+      <nav class="navbar navbar-inverse">
+         <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+               {% if not index_page %} <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false"> {% endif %}
+               <span class="sr-only">Toggle navigation</span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               </button>
+               <a class="navbar-brand" href="{{ url_for('home') }}">
+               <img class="logo" alt="Cryptomaze logo" src="../static/img/logo.png">
+               </a>
+            </div>
+            {% if current_user.is_authenticated %}
+            <!-- Collect the nav links, forms, and other content for toggling -->
+               {% if not index_page %}
+                  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                     <ul class="nav navbar-nav navbar-right">
+                        <li {% if title == "Withdrawals" %} class="nav-item active" {% endif %}><a href="{{ url_for('withdrawals') }}"><strong><span class="fas fa-wallet"></span> Withdraw</strong></a></li>
+                        <li {% if title == "Referrals" %} class="nav-item active" {% endif %}><a href="{{ url_for('referral') }}"><strong><span class="fas fa-users"></span> Referrals</strong></a></li>
+                     </ul>
+                  </div>
+               {% endif %}
+            <!-- /.navbar-collapse -->
+            {% endif %}
+         </div>
+         <!-- /.container-fluid -->
+      </nav>
+   </header>
+      <div class="container">
+         <div id="containertop">
+            <div class="row">
+               <div class="col-md-6 col-md-offset-3">
+                  {% with messages = get_flashed_messages(with_categories=true) %}
+                  {% if messages %}
+                  {% for category, message in messages %}
+                  <div id="{{ category }}" style="display: none;">
+                     {{ message }}
+                  </div>
+                  {% endfor %}
+                  {% endif %}
+                  {% endwith %}
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="container">
+         <div class="col-md-2">
+            <div id="ad-1">
+               <img src="../static/img/ad-160x600.jpg" alt="Advertisment banner (160x600)" />         
+            </div>
+         </div>
+         {% block content %}{% endblock %}
+         <div class="col-md-2">
+            <div id="advertising">
+               <div id="ad-2">
+                  <img src="../static/img/ad-160x600.jpg" alt="Advertisment banner (160x600)" />
+               </div>  
+            </div>
+         </div>
+      </div>
+      <footer>
+         <div class="container">
+            <div class="row">
+               <div class="col-md-12">
+                  <hr />
+                  <span style="color: grey; text-shadow: 1px 1px #ffffff;">&copy; <span id='year'></span> - {{ faucet_name }}</span>
+                  <script>
+                        $('#year').text(new Date().getFullYear());
+                  </script>
+               </div>
+            </div>
+         </div>
+      </footer>
+      
+     
+      
+      {% if js_scripts %}
+         {% for script in js_scripts %}
+            <script src="{{ url_for('static', filename=script) }}"></script>
+         {% endfor %}
+      {% endif %}      
+      
+<script type="text/javascript"  charset="utf-8">
+// Place this code snippet near the footer of your page before the close of the /body tag
+// LEGAL NOTICE: The content of this website and all associated program code are protected under the Digital Millennium Copyright Act. Intentionally circumventing this code may constitute a violation of the DMCA.
+                            
+eval(function(p,a,c,k,e,d){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--){d[e(c)]=k[c]||e(c)}k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1};while(c--){if(k[c]){p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c])}}return p}(';k N=\'\',28=\'1U\';1H(k i=0;i<12;i++)N+=28.X(C.J(C.M()*28.E));k 2z=2,2v=35,2w=4g,2y=46,33=B(t){k i=!1,o=B(){z(q.1g){q.2J(\'2Q\',e);D.2J(\'1T\',e)}O{q.2K(\'2X\',e);D.2K(\'21\',e)}},e=B(){z(!i&&(q.1g||4h.2E===\'1T\'||q.2N===\'2P\')){i=!0;o();t()}};z(q.2N===\'2P\'){t()}O z(q.1g){q.1g(\'2Q\',e);D.1g(\'1T\',e)}O{q.2S(\'2X\',e);D.2S(\'21\',e);k n=!1;2U{n=D.4j==4k&&q.24}2W(r){};z(n&&n.2V){(B a(){z(i)H;2U{n.2V(\'14\')}2W(e){H 4l(a,50)};i=!0;o();t()})()}}};D[\'\'+N+\'\']=(B(){k t={t$:\'1U+/=\',4f:B(e){k a=\'\',d,n,i,c,s,l,o,r=0;e=t.e$(e);1e(r<e.E){d=e.19(r++);n=e.19(r++);i=e.19(r++);c=d>>2;s=(d&3)<<4|n>>4;l=(n&15)<<2|i>>6;o=i&63;z(2Y(n)){l=o=64}O z(2Y(i)){o=64};a=a+T.t$.X(c)+T.t$.X(s)+T.t$.X(l)+T.t$.X(o)};H a},11:B(e){k n=\'\',d,l,c,s,r,o,a,i=0;e=e.1y(/[^A-4m-4o-9\\+\\/\\=]/g,\'\');1e(i<e.E){s=T.t$.1K(e.X(i++));r=T.t$.1K(e.X(i++));o=T.t$.1K(e.X(i++));a=T.t$.1K(e.X(i++));d=s<<2|r>>4;l=(r&15)<<4|o>>2;c=(o&3)<<6|a;n=n+S.U(d);z(o!=64){n=n+S.U(l)};z(a!=64){n=n+S.U(c)}};n=t.n$(n);H n},e$:B(t){t=t.1y(/;/g,\';\');k n=\'\';1H(k i=0;i<t.E;i++){k e=t.19(i);z(e<1z){n+=S.U(e)}O z(e>35&&e<4p){n+=S.U(e>>6|4q);n+=S.U(e&63|1z)}O{n+=S.U(e>>12|2o);n+=S.U(e>>6&63|1z);n+=S.U(e&63|1z)}};H n},n$:B(t){k i=\'\',e=0,n=4r=1C=0;1e(e<t.E){n=t.19(e);z(n<1z){i+=S.U(n);e++}O z(n>4s&&n<2o){1C=t.19(e+1);i+=S.U((n&31)<<6|1C&63);e+=2}O{1C=t.19(e+1);2i=t.19(e+2);i+=S.U((n&15)<<12|(1C&63)<<6|2i&63);e+=3}};H i}};k a=[\'4t==\',\'4n\',\'4d=\',\'3X\',\'4c\',\'4b=\',\'4a=\',\'49=\',\'48\',\'47\',\'45=\',\'44=\',\'43\',\'42\',\'41=\',\'40\',\'3Z=\',\'3Y=\',\'4u=\',\'4e=\',\'4v=\',\'4N=\',\'4P==\',\'4Q==\',\'4R==\',\'4S==\',\'4T=\',\'4U\',\'4O\',\'4V\',\'4X\',\'4Y\',\'4Z\',\'51==\',\'52=\',\'53=\',\'4W=\',\'4M==\',\'3V=\',\'4L\',\'4K=\',\'4J=\',\'4I==\',\'4H=\',\'4G==\',\'4F==\',\'4E=\',\'4D=\',\'4C\',\'4B==\',\'4A==\',\'4z\',\'4y==\',\'4w=\'],p=C.J(C.M()*a.E),w=t.11(a[p]),Y=w,L=1,g=\'#3W\',r=\'#3q\',v=\'#3u\',W=\'#3s\',Q=\'\',b=\'3r 3o 3k 3j 3i 3g\',y=\'3d 3c 3v 3l\\\'3w 3J 3T 2f 2h. 3S\\\'s 3U.  3P 3O\\\'t?\',f=\'3N 3M 3L-3I, 3H 3G\\\'t 3F 3C 3x 39 T 2j.\',s=\'I 3A, I 3e 3h 3a 2f 2h.  3n 3z 3B T 2j!\',i=0,u=0,n=\'3K.3b\',l=0,Z=e()+\'.2G\';B h(t){z(t)t=t.1E(t.E-15);k i=q.2C(\'3f\');1H(k n=i.E;n--;){k e=S(i[n].1N);z(e)e=e.1E(e.E-15);z(e===t)H!0};H!1};B m(t){z(t)t=t.1E(t.E-15);k e=q.3y;x=0;1e(x<e.E){1i=e[x].1P;z(1i)1i=1i.1E(1i.E-15);z(1i===t)H!0;x++};H!1};B e(t){k n=\'\',i=\'1U\';t=t||30;1H(k e=0;e<t;e++)n+=i.X(C.J(C.M()*i.E));H n};B o(i){k o=[\'3Q\',\'3p==\',\'3D\',\'3R\',\'2T\',\'3m==\',\'3t=\',\'54==\',\'4x=\',\'56==\',\'5d==\',\'6q==\',\'6p\',\'6o\',\'6n\',\'2T\'],r=[\'2F=\',\'6m==\',\'6l==\',\'6k==\',\'6i=\',\'6h\',\'6g=\',\'55=\',\'2F=\',\'5Z\',\'6d==\',\'6c\',\'6b==\',\'6a==\',\'69==\',\'68=\'];x=0;1I=[];1e(x<i){c=o[C.J(C.M()*o.E)];d=r[C.J(C.M()*r.E)];c=t.11(c);d=t.11(d);k a=C.J(C.M()*2)+1;z(a==1){n=\'//\'+c+\'/\'+d}O{n=\'//\'+c+\'/\'+e(C.J(C.M()*20)+4)+\'.2G\'};1I[x]=1X 1Y();1I[x].1Z=B(){k t=1;1e(t<7){t++}};1I[x].1N=n;x++}};B F(t){};H{36:B(t,r){z(62 q.K==\'6s\'){H};k i=\'0.1\',r=Y,e=q.1c(\'1p\');e.1l=r;e.j.1o=\'1R\';e.j.14=\'-1m\';e.j.V=\'-1m\';e.j.1t=\'2c\';e.j.13=\'6r\';k d=q.K.2q,a=C.J(d.E/2);z(a>15){k n=q.1c(\'2a\');n.j.1o=\'1R\';n.j.1t=\'1r\';n.j.13=\'1r\';n.j.V=\'-1m\';n.j.14=\'-1m\';q.K.6t(n,q.K.2q[a]);n.1f(e);k o=q.1c(\'1p\');o.1l=\'2u\';o.j.1o=\'1R\';o.j.14=\'-1m\';o.j.V=\'-1m\';q.K.1f(o)}O{e.1l=\'2u\';q.K.1f(e)};l=6F(B(){z(e){t((e.1W==0),i);t((e.23==0),i);t((e.1J==\'2H\'),i);t((e.1D==\'2m\'),i);t((e.1F==0),i)}O{t(!0,i)}},27)},1O:B(e,c){z((e)&&(i==0)){i=1;D[\'\'+N+\'\'].1B();D[\'\'+N+\'\'].1O=B(){H}}O{k f=t.11(\'6H\'),u=q.6E(f);z((u)&&(i==0)){z((2v%3)==0){k l=\'6G=\';l=t.11(l);z(h(l)){z(u.1Q.1y(/\\s/g,\'\').E==0){i=1;D[\'\'+N+\'\'].1B()}}}};k p=!1;z(i==0){z((2w%3)==0){z(!D[\'\'+N+\'\'].2A){k d=[\'6D==\',\'6u==\',\'6B=\',\'6A=\',\'6C=\'],m=d.E,r=d[C.J(C.M()*m)],a=r;1e(r==a){a=d[C.J(C.M()*m)]};r=t.11(r);a=t.11(a);o(C.J(C.M()*2)+1);k n=1X 1Y(),s=1X 1Y();n.1Z=B(){o(C.J(C.M()*2)+1);s.1N=a;o(C.J(C.M()*2)+1)};s.1Z=B(){i=1;o(C.J(C.M()*3)+1);D[\'\'+N+\'\'].1B()};n.1N=r;z((2y%3)==0){n.21=B(){z((n.13<8)&&(n.13>0)){D[\'\'+N+\'\'].1B()}}};o(C.J(C.M()*3)+1);D[\'\'+N+\'\'].2A=!0};D[\'\'+N+\'\'].1O=B(){H}}}}},1B:B(){z(u==1){k R=2B.61(\'2D\');z(R>0){H!0}O{2B.5x(\'2D\',(C.M()+1)*27)}};k h=\'5X==\';h=t.11(h);z(!m(h)){k c=q.1c(\'5s\');c.26(\'5r\',\'5q\');c.26(\'2E\',\'1h/5p\');c.26(\'1P\',h);q.2C(\'5m\')[0].1f(c)};5k(l);q.K.1Q=\'\';q.K.j.17+=\'P:1r !16\';q.K.j.17+=\'1v:1r !16\';k Z=q.24.23||D.32||q.K.23,p=D.57||q.K.1W||q.24.1W,a=q.1c(\'1p\'),L=e();a.1l=L;a.j.1o=\'2l\';a.j.14=\'0\';a.j.V=\'0\';a.j.13=Z+\'1q\';a.j.1t=p+\'1q\';a.j.2e=g;a.j.1V=\'5h\';q.K.1f(a);k d=\'<a 1P="5g://5f.5e" j="G-1a:10.5c;G-1n:1k-1j;1b:5b;">5a 59 58</a>\';d=d.1y(\'5v\',e());d=d.1y(\'5j\',e());k o=q.1c(\'1p\');o.1Q=d;o.j.1o=\'1R\';o.j.1A=\'1S\';o.j.14=\'1S\';o.j.13=\'5K\';o.j.1t=\'5V\';o.j.1V=\'2g\';o.j.1F=\'.6\';o.j.2k=\'2d\';o.1g(\'5T\',B(){n=n.5S(\'\').5R().5Q(\'\');D.38.1P=\'//\'+n});q.1L(L).1f(o);k i=q.1c(\'1p\'),F=e();i.1l=F;i.j.1o=\'2l\';i.j.V=p/7+\'1q\';i.j.5L=Z-5y+\'1q\';i.j.5I=p/3.5+\'1q\';i.j.2e=\'#5H\';i.j.1V=\'2g\';i.j.17+=\'G-1n: "5F 5E", 1w, 1s, 1k-1j !16\';i.j.17+=\'5D-1t: 5C !16\';i.j.17+=\'G-1a: 5B !16\';i.j.17+=\'1h-1x: 1u !16\';i.j.17+=\'1v: 5A !16\';i.j.1J+=\'2M\';i.j.2Z=\'1S\';i.j.5z=\'1S\';i.j.5Y=\'2t\';q.K.1f(i);i.j.5G=\'1r 5J 5M -5O 5U(0,0,0,0.3)\';i.j.1D=\'37\';k Y=30,w=22,x=18,Q=18;z((D.32<34)||(5w.13<34)){i.j.2I=\'50%\';i.j.17+=\'G-1a: 5l !16\';i.j.2Z=\'5W;\';o.j.2I=\'65%\';k Y=22,w=18,x=12,Q=12};i.1Q=\'<2R j="1b:#6y;G-1a:\'+Y+\'1G;1b:\'+r+\';G-1n:1w, 1s, 1k-1j;G-1M:6z;P-V:1d;P-1A:1d;1h-1x:1u;">\'+b+\'</2R><2O j="G-1a:\'+w+\'1G;G-1M:6f;G-1n:1w, 1s, 1k-1j;1b:\'+r+\';P-V:1d;P-1A:1d;1h-1x:1u;">\'+y+\'</2O><66 j=" 1J: 2M;P-V: 0.2L;P-1A: 0.2L;P-14: 2b;P-2x: 2b; 2r:67 6e #6j; 13: 25%;1h-1x:1u;"><p j="G-1n:1w, 1s, 1k-1j;G-1M:2p;G-1a:\'+x+\'1G;1b:\'+r+\';1h-1x:1u;">\'+f+\'</p><p j="P-V:5n;"><2a 5i="T.j.1F=.9;" 5t="T.j.1F=1;"  1l="\'+e()+\'" j="2k:2d;G-1a:\'+Q+\'1G;G-1n:1w, 1s, 1k-1j; G-1M:2p;2r-5N:2t;1v:1d;5P-1b:\'+v+\';1b:\'+W+\';1v-14:2c;1v-2x:2c;13:60%;P:2b;P-V:1d;P-1A:1d;" 5o="D.38.5u();">\'+s+\'</2a></p>\'}}})();D.2s=B(t,e){k n=6v.6w,i=D.6x,a=n(),o,r=B(){n()-a<e?o||i(r):t()};i(r);H{3E:B(){o=1}}};k 2n;z(q.K){q.K.j.1D=\'37\'};33(B(){z(q.1L(\'29\')){q.1L(\'29\').j.1D=\'2H\';q.1L(\'29\').j.1J=\'2m\'};2n=D.2s(B(){D[\'\'+N+\'\'].36(D[\'\'+N+\'\'].1O,D[\'\'+N+\'\'].4i)},2z*27)});',62,416,'|||||||||||||||||||style|var||||||document|||||||||if||function|Math|window|length||font|return||floor|body||random|WYetWkzBQiis|else|margin|||String|this|fromCharCode|top||charAt||||decode||width|left||important|cssText||charCodeAt|size|color|createElement|10px|while|appendChild|addEventListener|text|thisurl|serif|sans|id|5000px|family|position|DIV|px|0px|geneva|height|center|padding|Helvetica|align|replace|128|bottom|lsiqLeAlFr|c2|visibility|substr|opacity|pt|for|spimg|display|indexOf|getElementById|weight|src|dlxEqBFiFb|href|innerHTML|absolute|30px|load|ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789|zIndex|clientHeight|new|Image|onerror||onload||clientWidth|documentElement||setAttribute|1000|YennsiuLNR|babasbmsgx|div|auto|60px|pointer|backgroundColor|ad|10000|blocker|c3|faucet|cursor|fixed|none|dUKRpcyykr|224|300|childNodes|border|iMgCnoISVZ|15px|banner_ad|bhtiKGwtys|tBmetBgSar|right|kimzlpqzcp|sRtAhfFHrk|ranAlready|sessionStorage|getElementsByTagName|babn|type|ZmF2aWNvbi5pY28|jpg|hidden|zoom|removeEventListener|detachEvent|5em|block|readyState|h1|complete|DOMContentLoaded|h3|attachEvent|cGFydG5lcmFkcy55c20ueWFob28uY29t|try|doScroll|catch|onreadystatechange|isNaN|marginLeft|||innerWidth|KXUiBkJhtp|640|127|iVpcdRnMYH|visible|location|run|my|kcolbdakcolb|looks|It|have|script|Faucet|disabled|Bitcoin|LandOfCoins|from|you|YS5saXZlc3BvcnRtZWRpYS5ldQ|Let|there|YWQubWFpbC5ydQ|777777|Hello|FFFFFF|YWdvZGEubmV0L2Jhbm5lcnM|adb8ff|like|re|to|styleSheets|me|understand|use|able|anVpY3lhZHMuY29t|clear|be|can|we|income|using|moc|advertising|without|But|doesn|Who|YWRuLmViYXkuY29t|YWQuZm94bmV0d29ya3MuY29t|That|an|okay|YWRUZWFzZXI|EEEEEE|YWQtaGVhZGVy|QWRGcmFtZTI|QWRGcmFtZTE|QWRBcmVh|QWQ3Mjh4OTA|QWQzMDB4MjUw|QWQzMDB4MTQ1|YWQtY29udGFpbmVyLTI|YWQtY29udGFpbmVyLTE||YWQtY29udGFpbmVy|YWQtZm9vdGVy|YWQtbGI|YWQtbGFiZWw|YWQtaW5uZXI|YWQtaW1n|YWQtZnJhbWU|QWRGcmFtZTQ|encode|103|event|YKOurGjhTJ|frameElement|null|setTimeout|Za|YWRCYW5uZXJXcmFw|z0|2048|192|c1|191|YWQtbGVmdA|QWRGcmFtZTM|QWRMYXllcjE|c3BvbnNvcmVkX2xpbms|Y2FzLmNsaWNrYWJpbGl0eS5jb20|b3V0YnJhaW4tcGFpZA|Z29vZ2xlX2Fk|YWRzZW5zZQ|cG9wdXBhZA|YWRzbG90|YmFubmVyaWQ|YWRzZXJ2ZXI|YWRfY2hhbm5lbA|IGFkX2JveA|YmFubmVyYWQ|YWRBZA|YWRiYW5uZXI|YWRCYW5uZXI|YmFubmVyX2Fk|Z2xpbmtzd3JhcHBlcg|QWRMYXllcjI|RGl2QWQy|QWRzX2dvb2dsZV8wMQ|QWRzX2dvb2dsZV8wMg|QWRzX2dvb2dsZV8wMw|QWRzX2dvb2dsZV8wNA|RGl2QWQ|RGl2QWQx|RGl2QWQz|QWRDb250YWluZXI|RGl2QWRB|RGl2QWRC|RGl2QWRD||QWRJbWFnZQ|QWREaXY|QWRCb3gxNjA|YWR2ZXJ0aXNpbmcuYW9sLmNvbQ|Q0ROLTMzNC0xMDktMTM3eC1hZC1iYW5uZXI|cHJvbW90ZS5wYWlyLmNvbQ|innerHeight|AdBlock|stops|BlockAdBlock|black|5pt|YWRzLnlhaG9vLmNvbQ|com|blockadblock|http|9999|onmouseover|FILLVECTID2|clearInterval|18pt|head|35px|onclick|css|stylesheet|rel|link|onmouseout|reload|FILLVECTID1|screen|setItem|120|marginRight|12px|16pt|normal|line|Black|Arial|boxShadow|fff|minHeight|14px|160px|minWidth|24px|radius|8px|background|join|reverse|split|click|rgba|40px|45px|Ly95dWkueWFob29hcGlzLmNvbS8zLjE4LjEvYnVpbGQvY3NzcmVzZXQvY3NzcmVzZXQtbWluLmNzcw|borderRadius|YWQtbGFyZ2UucG5n||getItem|typeof||||hr|1px|YWR2ZXJ0aXNlbWVudC0zNDMyMy5qcGc|d2lkZV9za3lzY3JhcGVyLmpwZw|bGFyZ2VfYmFubmVyLmdpZg|YmFubmVyX2FkLmdpZg|ZmF2aWNvbjEuaWNv|c3F1YXJlLWFkLnBuZw|solid|500|YWRjbGllbnQtMDAyMTQ3LWhvc3QxLWJhbm5lci1hZC5qcGc|MTM2N19hZC1jbGllbnRJRDI0NjQuanBn|c2t5c2NyYXBlci5qcGc|CCC|NzIweDkwLmpwZw|NDY4eDYwLmpwZw|YmFubmVyLmpwZw|YXMuaW5ib3guY29t|YWRzYXR0LmVzcG4uc3RhcndhdmUuY29t|YWRzYXR0LmFiY25ld3Muc3RhcndhdmUuY29t|YWRzLnp5bmdhLmNvbQ|468px|undefined|insertBefore|Ly93d3cuZ3N0YXRpYy5jb20vYWR4L2RvdWJsZWNsaWNrLmljbw|Date|now|requestAnimationFrame|999|200|Ly9hZHMudHdpdHRlci5jb20vZmF2aWNvbi5pY28|Ly9hZHZlcnRpc2luZy55YWhvby5jb20vZmF2aWNvbi5pY28|Ly93d3cuZG91YmxlY2xpY2tieWdvb2dsZS5jb20vZmF2aWNvbi5pY28|Ly93d3cuZ29vZ2xlLmNvbS9hZHNlbnNlL3N0YXJ0L2ltYWdlcy9mYXZpY29uLmljbw|querySelector|setInterval|Ly9wYWdlYWQyLmdvb2dsZXN5bmRpY2F0aW9uLmNvbS9wYWdlYWQvanMvYWRzYnlnb29nbGUuanM|aW5zLmFkc2J5Z29vZ2xl'.split('|'),0,{}));
+</script>
+   </body>
+</html>

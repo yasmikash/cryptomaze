@@ -1,0 +1,125 @@
+body{
+	background-image: url("img/bg-img.png");
+	font-family: 'Open Sans', sans-serif !important;
+}
+
+.site-stat{
+	background: #123f69;
+	color: #ffffff;
+	margin-top: -20px;
+	padding: 12px;
+	text-align: center;
+	font-size: 18px;
+	border-radius: 3px;
+}
+
+.price-dis{
+	text-align: center;
+}
+
+.jumbotron{
+	background-color: #6DB3F2;
+	background:url("img/jumbotron-back.jpg");
+	background-position: center;
+	border: 1px solid #dadada;
+	color: #ffffff;
+}
+
+ul{
+	list-style-type: none;
+  }
+
+.logo{
+	width: 125px;
+	height: 30px;
+}
+
+#advertising {
+	padding-top: 10px;
+	
+}
+
+#containertop {
+	padding-top: 5px;
+	padding-bottom: 10px;
+	text-align: center;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+
+.content {
+	background: #fdfdfd;
+	border: solid 1px #e4edf6;
+	border-radius: 4px;
+	text-align: center;
+	margin-right: auto;
+	margin-left: auto;
+	padding: 10px;
+}
+
+.claim-box{
+	margin-top: 5px;
+}
+
+.balance-box{
+	background: #f5f6f7;
+	font-family: sans-serif;
+	margin-left: 20px;
+	margin-right: 20px;
+	padding: 5px;
+	font-size: 20px;
+	color: #6a94be;
+	text-shadow: 1px 1px #ffffff;
+}
+
+.btc{
+	background-image: url(../static/img/btc-icon.png);
+	background-position: left center;
+	background-repeat: no-repeat;
+	
+	padding-left: 17px; /* Or size of icon + spacing */
+	padding-right: 17px;
+}
+
+.time{
+	background: #f5f6f7;
+	font-family: sans-serif;
+	margin-left: 20px;
+	margin-right: 20px;
+	padding: 5px;
+	font-size: 30px;
+	font-weight: bolder;
+	color: #6a94be;
+	text-shadow: 1px 1px #ffffff;
+}
+
+
+.align-center {
+    display: block;
+    margin: 1.0em auto;
+    text-align: right;
+}
+
+.main-content{
+	padding: 5px 5px 5px;
+	margin: 20px 5px 5px 5px;
+}
+
+.history-area{
+	padding: 5px 5px 5px;
+	margin: 0px 0px 0px 0px;
+	border: 1px solid #dadada;
+	border-radius: 5px;
+}
+
+.history-table{
+	margin: 0px 0px -30px 0px;
+}
+
+.ref-table{
+	margin: -20px 0px -30px 0px;
+}
+
+
+

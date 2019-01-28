@@ -1,0 +1,41 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div class="col-md-8">
+    <div id="ad-3">
+        <img src="../static/img/ad-728x90.jpg" alt="Advertisment banner (160x600)" />
+    </div>
+    <div class="jumbotron">
+        <p class="lead">Earn FREE cryptocurrency directly to your wallet with Cryptomaze Faucet.</p>
+        <hr class="my-4">
+        <div style="text-align: left">
+            <ul class="fa-ul">
+                <li><span class="fas fa-fire-alt fa-li"></span> Claim {{ (claim['starting amount'] * 100000000) |int}} - {{ (claim['last amount'] * 100000000) |int}} Satoshi.</li>
+                <li><span class="fas fa-user-plus fa-li"></span> Referral system that gives you upto {{ max_commission }}% for each claim your referrals make.</li>
+                <li><span class="fas fa-wallet fa-li"></span> Get your earned Bitcoin directly to your Bitcoin wallet.</li>
+            </ul>
+        </div>
+        <form method="POST" action="" id="signup-form">
+            {{ signupform.hidden_tag() }}
+            <div class="form-group">
+                {% if signupform.bitcoin_address.errors %}
+                {{ signupform.bitcoin_address(class="form-control is-invalid") }}
+                <div class="text-danger" id="invalid-btc">
+                    {% for error in signupform.bitcoin_address.errors %}
+                    {{ error }}
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ signupform.bitcoin_address(class="form-control") }}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ signupform.submit_signup(class="btn btn-default btn-md") }}
+            </div>
+        </form>
+    </div>
+    <div class="site-stat">
+        <p><span class="fas fa-users fa-fw"></span> {{ users }} HAPPY USERS REGISTERED</p>
+        <p><span class="fab fa-bitcoin fa-fw"></span> {{ "%.8f"|format(paid) }} BTC PAID SO FAR</p>
+    </div>
+</div>
+{% endblock content %}

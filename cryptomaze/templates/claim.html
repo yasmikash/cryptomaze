@@ -1,0 +1,36 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div class="col-md-8 content">
+    <div id="ad-4">
+        <img src="../static/img/ad-728x90.jpg" alt="Advertisment banner (728x90)" />
+    </div>
+    <div class="row">
+        <div class="balance-box">
+            <span class="btc">BALANCE: {{ "%.8f"|format(current_user.btc_balance) }} BTC</span>
+        </div>
+        <div class="col claim-box">
+            <form method="POST" action="" id="claim-form">
+                {{ claimform.hidden_tag() }}
+                <div class="form-group">
+                    <div class="re-centered">
+                        {{ claimform.recaptcha }}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    {{ claimform.submit_claim(class="btn btn-success") }}
+                    {% if claimform.recaptcha.errors %}
+                    {% for error in claimform.recaptcha.errors %}
+                    <div class="text-danger" id="recaptcha-fail" style="display: none;">
+                        {{ error }}
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="ad-5">
+        <img src="../static/img/ad-728x90.jpg" alt="Advertisment banner (728x90)" />
+    </div>
+</div>
+{% endblock content %}

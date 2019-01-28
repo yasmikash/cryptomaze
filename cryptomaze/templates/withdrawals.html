@@ -1,0 +1,73 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div class="col-md-8 content">
+    <div class="row">
+        <div class="col">
+            <form method="POST" action="">
+                {{ withdrawform.hidden_tag() }}
+                <div class="form-group">
+                    <div class="re-centered">
+                        {{ withdrawform.recaptcha }}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    {{ withdrawform.submit_withdraw(class="btn btn-success") }}
+                    {% if withdrawform.recaptcha.errors %}
+                    {% for error in withdrawform.recaptcha.errors %}
+                    <div class="text-danger" id="recaptcha-fail" style="display: none;">
+                        {{ error }}
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+            </form>
+        </div>
+    </div>
+    {% if user_withdrawals %}
+    <h4><span class="fas fa-redo-alt" style="color: rgb(128, 128, 128)"></span> Withdrawal History</h4>
+    <div class="row history-area">
+        <div class="col history-table">
+            <table class="table table-striped" style="background-color: white;">
+                <thead>
+                    <tr>
+                        <th>Amount</th>
+                        <th>Date</th>
+                        <th>Address</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for withdrawal in user_withdrawals %}
+                    <tr>
+                        <td align="left">{{ "%.8f"|format(withdrawal.amount) }}</td>
+                        <td align="left">{{ withdrawal.withdraw_date }}</td>
+                        <td align="left">{{ withdrawal.bitcoin_address }}</td>
+                        <td>{% if withdrawal.status %}<span class="label label-success">SENT</span></td>{% else %}<span
+                            class="label label-default">PENDING</span></td>{% endif %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col">
+            <nav style="text-align:left; margin: 0px 0px -20px 0px;">
+                <ul class="pagination">
+                    {% for page_num in iter_pages %}
+                    {% if page_num %}
+                    {% if page == page_num %}
+                    <li class="page-item active"><a class="page-link" href="{{ url_for('withdrawals', item=page_num) }}">{{
+                            page_num }}</a></li>
+                    {% else %}
+                    <li class="page-item"><a class="page-link" href="{{ url_for('withdrawals', item=page_num) }}">{{
+                            page_num }}</a></li>
+                    {% endif %}
+                    {% else %}
+                    <li class="page-item disabled"><a class="page-link" href="#"> ... </a></li>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+            </nav>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock content %}
