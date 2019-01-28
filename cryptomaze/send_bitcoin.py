@@ -1,5 +1,6 @@
+from cryptomaze.settings import coinbase_api, coinbase_api_secr
 from coinbase.wallet.client import Client
-client = Client('e30pkf3soRftrKWy', '8X5CdREU7N7I2snikY0Tq9UGBwT3URoL')
+client = Client(coinbase_api, coinbase_api_secr)
 
 account = client.get_primary_account()
 
