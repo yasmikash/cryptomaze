@@ -5,5 +5,5 @@ Cryptomaze is developed using python's flask microframework.
 
 # Installation
 Cryptomaze has currently tested with python v3.6, however it may be possible to use with version 3.3 or above.
-- All the modules should be installed is listed in the requirements.txt file
-- You can change the settings to your faucet by editing settings.py that's inside the cryptomaze folder.
+- All the modules should be installed is listed in the `requirements.txt` file
+- You can change the settings to your faucet by editing `settings.py` that's inside the cryptomaze folder.
