@@ -20,4 +20,4 @@ pub_key = "6LeEdHsUAAAAANH-6_C46-6yTPaMQiy96rk611wy" # public key
 
 # include your Coinbase api key and api secret key
 coinbase_api = "e30pkf3soRftrKWy"
-coinbase_api_secr = "8X5CdREU7N7I2snikY0Tq9UGBwT3URoL"
+coinbase_api_secr = "8X5CaREU7N9I2snikY0Tq9UGBwT3URoX"
