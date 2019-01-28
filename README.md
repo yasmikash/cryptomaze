@@ -4,6 +4,6 @@ Cryptomaze Bitcoin faucet is a simple bitcoin faucet that gives the ability to r
 Cryptomaze is developed using python's flask microframework.
 
 # Installation
-Cryptomaze has currently tested with python v3.6, however it may be possible to use with version 3.3 or above.
+Cryptomaze has currently tested with python v3.6, however it is possible to use with version 3.0 or above.
 - All the modules should be installed is listed in the `requirements.txt` file
-- You can change the settings to your faucet by editing `settings.py` that's inside the cryptomaze folder.
+- You can change the settings to your faucet by editing `settings.py` that is inside the cryptomaze folder.
