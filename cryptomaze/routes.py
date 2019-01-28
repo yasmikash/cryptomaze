@@ -163,7 +163,7 @@ def timecount():
 
 @app.route('/nojs')
 def no_js():
-   return '<h1>We need you to enable JavaScript in your browser before accessing this site! <br><a href="http://landofcoins.xyz">Go back home</a></h1>'
+   return '<h1>We need you to enable JavaScript in your browser before accessing this site! <br><a href='+ settings.faucet_url +'>Go back home</a></h1>'
 
 @app.errorhandler(404)
 def page_not_found(error):
