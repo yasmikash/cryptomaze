@@ -17,3 +17,8 @@ max_commission = 70 # Max commission as persentage
 # include your re-captcha public and private keys
 pri_key = "6LeEdHsUAAAAAEP676Av5roxNRcFc1kYs4USVjvU" # private key
 pub_key = "6LeEdHsUAAAAANH-6_C46-6yTPaMQiy96rk611wy" # public key
+
+# include your Coinbase api key and api secret key
+
+coinbase_api = "e30pkf3soRftrKWy"
+coinbase_api_secr = "8X5CdREU7N7I2snikY0Tq9UGBwT3URoL"
