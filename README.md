@@ -1,5 +1,5 @@
 # Cryptomaze - Python-powered Bitcoin Faucet
-Cryptomaze Bitcoin faucet is a simple bitcoin faucet that gives the ability to registered users to claim simple amounts of bitcoin in every difined time, and has the ability to send user payments after their withdrawal limit to FaucetHUB.IO.
+Cryptomaze Bitcoin faucet is a simple bitcoin faucet that gives the ability to registered users to claim simple amounts of bitcoin in every difined time, and has the ability to send user payments after their withdrawal limit to FaucetHUB.IO account.
 
 Cryptomaze is developed using python's flask microframework.
 
