@@ -5,11 +5,11 @@ from cryptomaze import app, db, bcrypt
 from cryptomaze.referrals import ref_count, apply_discount
 from flask_login import login_user, current_user, logout_user, login_required
 from sqlalchemy import desc
-from random import randint, uniform
+from random import randint
 from datetime import datetime
 import cryptomaze.settings as settings
 from cryptomaze.calculate_time import calc_time
-from cryptomaze.send_bitcoin import send_bitcoin
+import cryptomaze.faucethub as faucethub
 
 #imports required for jQuery
 from cryptomaze.validate_btc_address import check_bc
@@ -23,8 +23,8 @@ def home():
     records = Withdraw.query.all()
     paid = 0
     for record in records:
-        paid =+ record.amount
-    paid = round(paid, 8)
+        paid += record.amount
+    all_time_paid = paid / 100000000
 
     if current_user.is_authenticated:
         return redirect(url_for('claim'))
@@ -46,7 +46,7 @@ def home():
             db.session.commit()
             login_user(user, remember=True)
             return redirect(url_for('claim'))
-    return render_template('index.html', faucet_name=settings.faucet_name, max_commission=settings.max_commission, time=int(settings.time/60), claim=settings.claim, signupform=signupform, users=users, paid=paid, index_page=True, js_scripts=js_scripts)
+    return render_template('index.html', faucet_name=settings.faucet_name, max_commission=settings.max_commission, time=int(settings.time/60), claim=settings.claim, signupform=signupform, users=users, paid=all_time_paid, index_page=True, js_scripts=js_scripts)
 
 
 @app.route('/claim', methods=['GET', 'POST'])
@@ -58,37 +58,33 @@ def claim():
         if current_user.last_claim_date:
             time_count = calc_time(current_user.last_claim_date)
             if time_count >= settings.time:
-                claim_amount = round(uniform(
-                    settings.claim['starting amount'], settings.claim['last amount']), 8)
-                current_user.btc_balance = round((current_user.btc_balance + claim_amount), 8)
+                claim_amount = randint(settings.claim['starting amount'], settings.claim['last amount'])
+                current_user.btc_balance = current_user.btc_balance + claim_amount
                 current_user.last_claim_date = datetime.utcnow()
                 db.session.commit()
 
                 # Calculating the referral amount and updating the database
                 referred_user = User.query.get(current_user.referred_by)
                 if referred_user:
-                    ref_amount = round((apply_discount(ref_count(referred_user.id)) / 100.0 * claim_amount), 8)
-                    referred_user.ref_balance = round((referred_user.ref_balance + ref_amount), 8)
-                    referred_user.btc_balance = round((referred_user.btc_balance + ref_amount), 8)
+                    ref_amount = int(((apply_discount(ref_count(referred_user.id))) / 100.0) * claim_amount)
+                    referred_user.ref_balance = referred_user.ref_balance + ref_amount
+                    referred_user.btc_balance = referred_user.btc_balance + ref_amount
                     db.session.commit()
-                #
 
-                flash('Boom! You claimed {} Satoshi!'.format(str(int(claim_amount * 100000000))), category='notify-claim-msg')
+                flash('Boom! You claimed {} Satoshi!'.format(str(claim_amount)), category='notify-claim-msg')
                 return redirect(url_for('claim'))
             else:
                 flash('Please wait {} minutes for next claim.'.format(
-                    str(5 - int(time_count / 60))), category='notify-claim-warning')
+                    str(int(settings.time/60) - int(time_count / 60))), category='notify-claim-warning')
                 return redirect(url_for('claim'))
         else:
-            claim_amount = round(uniform(
-                settings.claim['starting amount'], settings.claim['last amount']), 8)
-            current_user.btc_balance = round((current_user.btc_balance + claim_amount), 8)
+            claim_amount = randint(settings.claim['starting amount'], settings.claim['last amount'])
+            current_user.btc_balance = current_user.btc_balance + claim_amount
             current_user.last_claim_date = datetime.utcnow()
             db.session.commit()
-            flash('You have claimed {} sat!'.format(
-                str(claim_amount)), category='info')
+            flash('Boom! You claimed {} Satoshi!'.format(str(claim_amount)), category='notify-claim-msg')
             return redirect(url_for('claim'))
-    return render_template('claim.html', title='Claim', faucet_name=settings.faucet_name, claimform=claimform, max_commission=settings.max_commission, time=int(settings.time/60), claim=settings.claim, js_scripts=js_scripts)
+    return render_template('claim.html', title='Claim', faucet_balance=faucethub.faucet_balance(), faucet_name=settings.faucet_name, claimform=claimform, max_commission=settings.max_commission, time=int(settings.time/60), claim=settings.claim, js_scripts=js_scripts)
     
     
 @app.route('/referral')
@@ -105,19 +101,19 @@ def withdrawals():
     btc_balance = current_user.btc_balance
     if withdrawform.validate_on_submit():
         if current_user.btc_balance >= settings.threshold:
-            if send_bitcoin(current_user.bitcoin_address, current_user.btc_balance):
+            if faucethub.send_bitcoin(current_user.btc_balance, current_user.bitcoin_address):
                 withdraw = Withdraw(amount=current_user.btc_balance, bitcoin_address=current_user.bitcoin_address,
                                 withdraw_date=datetime.utcnow(), user_id=current_user.id)
                 current_user.btc_balance = 0
                 db.session.add(withdraw)
                 db.session.commit()
-                flash("Withdrawal placed", category="with-success")
+                flash("Successfully withdrawed", category="with-success")
                 return redirect(url_for('withdrawals'))
             else:
                 flash("We had some trouble sending Bitcoin", category="with-denied")
                 return redirect(url_for('withdrawals'))
         else:
-            flash('Please maintain at least {} Satoshi in your account to place a withdraw'.format(str(int(settings.threshold * 100000000))), category='enough-balance')
+            flash('Please maintain at least {} Satoshi in your account to withdraw'.format(str(settings.threshold)), category='enough-balance')
             return redirect(url_for('withdrawals'))
 
     user_withdrawals = Withdraw.query.filter_by(user_id=current_user.id).order_by(desc(Withdraw.withdraw_date))
@@ -139,11 +135,6 @@ def withdrawals():
 
     return render_template('withdrawals.html', title='Withdrawals',  faucet_name=settings.faucet_name, withdrawform=withdrawform, btc_balance=btc_balance, user_withdrawals=user_withdrawals, iter_pages=iter_pages, page=page, js_scripts=js_scripts)
 
-@app.route('/logout')
-def logout():
-    logout_user()
-    return redirect(url_for('home'))
-
 @app.route('/ct65756587', methods=['POST'])
 def checkbtcaddress():
     bitcoin_address = request.form['bitcoin_address']
@@ -163,7 +154,7 @@ def timecount():
 
 @app.route('/nojs')
 def no_js():
-   return '<h1>We need you to enable JavaScript in your browser before accessing this site! <br><a href='+ settings.faucet_url +'>Go back home</a></h1>'
+   return '<h1>We need you to enable JavaScript in your browser before accessing this site! <br><a href="http://landofcoins.xyz">Go back home</a></h1>'
 
 @app.errorhandler(404)
 def page_not_found(error):

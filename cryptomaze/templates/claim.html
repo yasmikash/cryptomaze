@@ -6,7 +6,8 @@
     </div>
     <div class="row">
         <div class="balance-box">
-            <span class="btc">BALANCE: {{ "%.8f"|format(current_user.btc_balance) }} BTC</span>
+            <span class="faucet">FAUCET: {% if faucet_balance %}{{ faucet_balance }} sat{% else %} ERROR {% endif %}</span>
+            <span class="btc">USER: {{ current_user.btc_balance }} sat</span>
         </div>
         <div class="col claim-box">
             <form method="POST" action="" id="claim-form">

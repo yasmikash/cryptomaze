@@ -52,7 +52,7 @@
                <tr>
                   <td align='left'>{{ ref_count }}</td>
                   <td align='left'>{% if ref_commission %}{{ ref_commission }}%{% else %} - {% endif %}</td>
-                  <td align='left'>{{ "%.8f"|format(current_user.ref_balance) }} BTC</td>
+                  <td align='left'>{{ current_user.ref_balance }} sat</td>
                </tr>
                <tr>
                   <td colspan="3">REF LINK: <code>{{ faucet_url }}index?ref={{ current_user.id }}</code></td>

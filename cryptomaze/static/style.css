@@ -82,6 +82,15 @@ ul{
 	padding-right: 17px;
 }
 
+.faucet{
+	background-image: url(../static/img/faucet-icon.png);
+	background-position: left center;
+	background-repeat: no-repeat;
+	
+	padding-left: 17px; /* Or size of icon + spacing */
+	padding-right: 17px;
+}
+
 .time{
 	background: #f5f6f7;
 	font-family: sans-serif;

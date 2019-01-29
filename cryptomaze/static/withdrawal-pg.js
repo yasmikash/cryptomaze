@@ -4,7 +4,7 @@ $(document).ready(function(){
     if ($withdrawNoty.length){
         Swal(
             $withdrawNoty.text(),
-            'You will get your Bitcoin asap to your Bitcoin wallet',
+            'Check your FaucetHUB.IO account',
             'success'
           );
     }

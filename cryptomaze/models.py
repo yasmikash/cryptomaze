@@ -13,8 +13,8 @@ class User(db.Model, UserMixin):
     bitcoin_address = db.Column(db.String(120), nullable=False)
     register_date = db.Column(
         db.DateTime, nullable=False, default=datetime.utcnow)
-    ref_balance = db.Column(db.FLOAT(precesion=15, scale=8), default=0)
-    btc_balance = db.Column(db.FLOAT(precesion=15, scale=8), default=0)
+    ref_balance = db.Column(db.Integer, default=0)
+    btc_balance = db.Column(db.Integer, default=0)
     last_claim_date = db.Column(db.DateTime, default=datetime(2013, 9, 30, 7, 6, 5))
     referred_by = db.Column(db.Integer, default=0)
     withdrawals = db.relationship('Withdraw', backref='withdrawal', lazy=True)
@@ -25,10 +25,10 @@ class User(db.Model, UserMixin):
 
 class Withdraw(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    amount = db.Column(db.FLOAT(precesion=15, scale=8), nullable=False)
+    amount = db.Column(db.Integer, nullable=False)
     bitcoin_address = db.Column(db.String(120), nullable=False)
     withdraw_date = db.Column(db.DateTime, nullable=False)
-    status = db.Column(db.Boolean, nullable=False, default=0)
+    status = db.Column(db.Boolean, nullable=False, default=1)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __repr__(self):

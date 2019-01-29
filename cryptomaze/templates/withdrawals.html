@@ -38,7 +38,7 @@
                 <tbody>
                     {% for withdrawal in user_withdrawals %}
                     <tr>
-                        <td align="left">{{ "%.8f"|format(withdrawal.amount) }}</td>
+                        <td align="left">{{ withdrawal.amount }}</td>
                         <td align="left">{{ withdrawal.withdraw_date }}</td>
                         <td align="left">{{ withdrawal.bitcoin_address }}</td>
                         <td>{% if withdrawal.status %}<span class="label label-success">SENT</span></td>{% else %}<span
