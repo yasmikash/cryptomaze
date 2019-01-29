@@ -14,12 +14,14 @@ In this page now we're going to create a python application for Cryptomaze fauce
 
 Okay. Now we created our python application. Now we need to install necessary modules to our app. To do that, click on 'add' under the module field. You'll have to add all the modules and their versions one by one and click on update. Below you can find all the modules and their versions that should be installed; (also, there is available requirements.txt file which includes all the module names and versions sould be installed if you're using pip command)
 
-Flask==1.0.2,  Flask-Bcrypt==0.7.1, Flask-WTF==0.14.2, Flask-SQLAlchemy==2.3.2, Flask-Login==0.4.1
+**Flask==1.0.2,  Flask-Bcrypt==0.7.1, Flask-WTF==0.14.2, Flask-SQLAlchemy==2.3.2, Flask-Login==0.4.1**
+
 See this screenshot after installing above modules: https://i.imgur.com/GJD7Gbs.jpg
 
-Now click on restart. And then go to 'File Manager' from c-panel home and find your application directory. You should see some files and directories inside that directory. Delete only the public folder in that directory and upload the cryptomaze script. You have to edit the  passenger_wsgi.py file. Delete all the code inside the passenger_wsgi.py file and add this line of code:
+Now click on restart. And then go to 'File Manager' from c-panel home and find your application directory. You should see some files and directories inside that directory. Delete only the public folder in that directory and upload the cryptomaze script. You have to edit the  passenger_wsgi.py file. Delete all the code inside the `passenger_wsgi.py` file and add this line of code:
 
 `from run import application`
+
 See this screenshot how your script directory should be: https://i.imgur.com/Azkoypl.jpg
 
 Now everything should be working as expected!
