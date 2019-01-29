@@ -26,3 +26,5 @@ See this screenshot how your script directory should be: https://i.imgur.com/Azk
 
 Now everything should be working as expected!
 
+You can change the settings.py file according to your faucet settings.
+
