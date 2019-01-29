@@ -18,4 +18,4 @@ pri_key = "6LeEdHsUAAAAAEP676Av5roxNRcFc1kYs4USVjvU" # private key
 pub_key = "6LeEdHsUAAAAANH-6_C46-6yTPaMQiy96rk611wy" # public key
 
 # include your Faucethub.io api key
-faucethub_api = "7a75ae7080b915119e0304e772c23f22"
+faucethub_api = "josicoesiuowwe8iewocoicuw8e79weucou"
